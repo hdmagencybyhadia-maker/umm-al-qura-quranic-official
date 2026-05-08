@@ -324,6 +324,13 @@ export default function App() {
                 >
                   <MessageCircle className="w-6 h-6 mr-3" /> Message on WhatsApp
                 </Button>
+                <motion.div 
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-12 py-4 flex items-center justify-center text-white font-bold text-lg shadow-xl cursor-default"
+                >
+                  <Phone className="w-5 h-5 mr-3 text-islamic-gold" />
+                  +92 329 6838371
+                </motion.div>
               </div>
             </motion.div>
             
