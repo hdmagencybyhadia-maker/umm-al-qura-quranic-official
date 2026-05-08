@@ -175,24 +175,6 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    course: 'Quran Nazra',
-    message: ''
-  });
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleFormSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const { name, email, course, message } = formData;
-    const whatsappMessage = `*New Contact Request*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*Course:* ${course}%0A*Message:* ${message}`;
-    window.open(`https://wa.me/923296838371?text=${whatsappMessage}`, '_blank');
-  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -239,9 +221,17 @@ export default function App() {
           </div>
 
           <div className="hidden lg:flex items-center space-x-8 text-sm font-medium uppercase tracking-wider text-gray-700">
-            {['Home', 'About', 'Courses', 'Pricing', 'Contact'].map((item) => (
+            {['Home', 'About', 'Courses', 'Pricing'].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-islamic-gold transition-colors">{item}</a>
             ))}
+            <a 
+              href="https://wa.me/923296838371" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="hover:text-islamic-gold transition-colors"
+            >
+              Contact
+            </a>
             <button 
               onClick={() => setIsDarkMode(!isDarkMode)}
               className="p-2 rounded-full hover:bg-gray-100 transition-colors"
@@ -279,9 +269,17 @@ export default function App() {
               </button>
             </div>
             <div className="mt-12 flex flex-col space-y-8 text-3xl font-serif font-bold text-islamic-green">
-              {['Home', 'About', 'Courses', 'Pricing', 'Contact'].map((item) => (
+              {['Home', 'About', 'Courses', 'Pricing'].map((item) => (
                 <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setIsMenuOpen(false)}>{item}</a>
               ))}
+              <a 
+                href="https://wa.me/923296838371" 
+                target="_blank" 
+                rel="noreferrer" 
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Contact
+              </a>
             </div>
           </motion.div>
         )}
@@ -292,9 +290,9 @@ export default function App() {
         {/* Background */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=2670&auto=format&fit=crop" 
-            alt="Mosque Interior" 
-            className="w-full h-full object-cover brightness-[0.3]"
+            src="https://images.unsplash.com/photo-1582218778054-94563a696425?q=80&w=2670&auto=format&fit=crop" 
+            alt="Children studying Quran" 
+            className="w-full h-full object-cover brightness-[0.35]"
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-islamic-green/80 to-transparent" />
@@ -319,8 +317,12 @@ export default function App() {
                 <span className="block mt-4 py-2 px-4 bg-islamic-gold text-islamic-green font-bold inline-block rounded-lg shadow-lg">Start your spiritual journey today.</span>
               </p>
               <div className="flex flex-col sm:flex-row gap-6">
-                <Button variant="secondary" className="text-lg px-12" onClick={() => window.open('https://wa.me/923296838371', '_blank')}>
-                  Contact
+                <Button 
+                  variant="secondary" 
+                  className="text-lg px-12 flex items-center justify-center" 
+                  onClick={() => window.open('https://wa.me/923296838371?text=Hi,%20I%20would%20like%20to%20get%20more%20information%20about%20Umm%20al-Qura%20Academy.', '_blank')}
+                >
+                  <MessageCircle className="w-6 h-6 mr-3" /> Message on WhatsApp
                 </Button>
               </div>
             </motion.div>
@@ -372,15 +374,11 @@ export default function App() {
             >
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-islamic-gold/10 rounded-full blur-3xl" />
               <img 
-                src="https://images.unsplash.com/photo-1582213726892-2aa050df92ca?q=80&w=2670&auto=format&fit=crop" 
-                alt="Teacher explaining" 
+                src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?q=80&w=2670&auto=format&fit=crop" 
+                alt="The Holy Quran" 
                 className="rounded-[3rem] shadow-2xl relative z-10"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute -bottom-10 -right-10 glass p-8 rounded-3xl z-20 hidden md:block border-islamic-gold/30">
-                <div className="text-3xl font-bold text-islamic-green font-serif">10+ Years</div>
-                <div className="text-sm text-gray-500">Academic Excellence</div>
-              </div>
             </motion.div>
 
             <div className="lg:w-1/2">
@@ -392,7 +390,7 @@ export default function App() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
                 {[
-                  { icon: GraduationCap, text: 'Certified Male & Female Teachers' },
+                  { icon: GraduationCap, text: 'Expert Male & Female Teachers' },
                   { icon: Users, text: 'One-on-One Personalized Classes' },
                   { icon: Clock, text: 'Flexible 24/7 Timings' },
                   { icon: Globe, text: 'Worldwide Access Anywhere' }
@@ -466,7 +464,7 @@ export default function App() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { title: 'Experienced Tutors', description: 'Our teachers are Ijazah holders and graduates from reputable universities.', icon: GraduationCap },
+              { title: 'Expert Tutors', description: 'Certified Male & Female teachers with 2, 3, 4, and 5+ years of experience.', icon: GraduationCap },
               { title: '24/7 Support', description: 'Technical assistance and academic support available at all times.', icon: MessageCircle },
               { title: 'Affordable Fees', description: 'Premium education shouldn\'t be a burden. We offer competitive pricing.', icon: CheckCircle2 },
               { title: 'Flexible Schedule', description: 'Pick class times that fit perfectly into your busy lifestyle.', icon: Clock },
@@ -489,36 +487,37 @@ export default function App() {
           {/* Custom style for this section heading as it's on dark bg */}
           <style>{`#courses + section + section h2 { color: white; } #courses + section + section p { color: rgba(255,255,255,0.7); }`}</style>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-4 max-w-4xl mx-auto">
             {[
-              { name: 'Sheikh Abdullah', role: 'Qira\'at Expert', exp: '12 Yrs', gender: 'Male' },
-              { name: 'Ustadha Fatima', role: 'Tajweed Specialist', exp: '8 Yrs', gender: 'Female' },
-              { name: 'Hafiz Omar', role: 'Hifz Program Lead', exp: '15 Yrs', gender: 'Male' },
-              { name: 'Ustadha Sara', role: 'Islamic Studies', exp: '10 Yrs', gender: 'Female' }
+              { name: 'Sheikh Abdullah', role: 'Qira\'at Expert', exp: '5 Yrs', gender: 'Male' },
+              { name: 'Ustadha Fatima', role: 'Tajweed Specialist', exp: '4 Yrs', gender: 'Female' },
+              { name: 'Hafiz Omar', role: 'Hifz Program Lead', exp: '3 Yrs', gender: 'Male' },
+              { name: 'Ustadha Sara', role: 'Islamic Studies', exp: '2 Yrs', gender: 'Female' }
             ].map((teacher, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="group p-8 rounded-[2rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 flex flex-col items-center text-center shadow-xl relative"
+                className="group p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 flex flex-col sm:flex-row items-center gap-6 shadow-lg relative overflow-hidden"
               >
-                <div 
-                  className={`absolute top-6 right-6 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
-                    teacher.gender === 'Male' ? 'bg-blue-500/20 text-blue-300' : 'bg-pink-500/20 text-pink-300'
-                  }`}
-                >
-                  {teacher.gender}
+                <div className="w-16 h-16 rounded-xl bg-islamic-gold/20 flex items-center justify-center shrink-0 group-hover:bg-islamic-gold/30 transition-colors">
+                  <span className="text-2xl font-serif font-bold text-islamic-gold">{teacher.name[0]}</span>
                 </div>
-                <div className="w-24 h-24 rounded-full bg-islamic-gold/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <span className="text-3xl font-serif font-bold text-islamic-gold">{teacher.name[0]}</span>
+                
+                <div className="flex-grow text-center sm:text-left">
+                  <h3 className="text-xl font-bold text-white group-hover:text-islamic-gold transition-colors">{teacher.name}</h3>
                 </div>
-                <div className="text-islamic-gold font-bold mb-1 uppercase tracking-widest text-[10px]">{teacher.role}</div>
-                <div className="flex items-center space-x-2 text-white/60 text-sm">
-                   <Star className="w-4 h-4 fill-islamic-gold text-islamic-gold" />
-                   <span>{teacher.exp} Experience</span>
+
+                <div className="flex items-center space-x-6 text-sm shrink-0">
+                  <div className="flex items-center text-white/70">
+                    <Star className="w-4 h-4 fill-islamic-gold text-islamic-gold mr-2" />
+                    <span>{teacher.exp} Exp.</span>
+                  </div>
                 </div>
+                
+                <div className="absolute right-0 top-0 h-full w-1 bg-islamic-gold opacity-0 group-hover:opacity-100 transition-opacity" />
               </motion.div>
             ))}
           </div>
@@ -669,75 +668,30 @@ export default function App() {
               </div>
             </div>
 
-            <div className="lg:w-3/5 p-12 lg:p-16">
-              <div className="mb-10 p-6 rounded-3xl bg-islamic-green/5 border border-islamic-green/10 flex flex-col sm:flex-row items-center justify-between gap-6">
-                <div>
-                  <h3 className="text-xl font-bold text-islamic-green">Prefer Direct Chat?</h3>
-                  <p className="text-gray-500">Click below to start a conversation on WhatsApp immediately.</p>
+            <div className="lg:w-3/5 p-12 lg:p-16 flex flex-col justify-center bg-white/50 backdrop-blur-sm">
+              <div className="text-center space-y-8">
+                <div className="w-24 h-24 bg-islamic-green/5 rounded-full flex items-center justify-center mx-auto mb-8">
+                  <MessageCircle className="w-12 h-12 text-islamic-green animate-pulse" />
                 </div>
-                <Button 
-                  onClick={() => window.open('https://wa.me/923296838371', '_blank')}
-                  className="bg-[#25D366] text-white hover:bg-[#128C7E] flex items-center shrink-0"
+                <h3 className="text-3xl font-bold text-islamic-green">Start Instant Chat</h3>
+                <p className="text-gray-600 text-lg max-w-md mx-auto">
+                  Forget long forms. Click below to message us directly on WhatsApp for instant enrollment and course details.
+                </p>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <MessageCircle className="w-5 h-5 mr-2" /> Chat on WhatsApp
-                </Button>
-              </div>
-
-              <form onSubmit={handleFormSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700 uppercase tracking-widest">Full Name</label>
-                    <input 
-                      type="text" 
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:outline-none focus:border-islamic-green transition-all" 
-                      placeholder="John Doe" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700 uppercase tracking-widest">Email Address</label>
-                    <input 
-                      type="email" 
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:outline-none focus:border-islamic-green transition-all" 
-                      placeholder="john@example.com" 
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700 uppercase tracking-widest">Select Course</label>
-                  <select 
-                    name="course"
-                    value={formData.course}
-                    onChange={handleInputChange}
-                    className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:outline-none focus:border-islamic-green transition-all"
+                  <Button 
+                    onClick={() => window.open('https://wa.me/923296838371?text=Asalamu%20Alaikum,%20I%20am%20interested%20in%20enrolling%20in%20the%20Quran%20courses.', '_blank')}
+                    className="bg-[#25D366] text-white hover:bg-[#128C7E] py-6 px-12 text-xl shadow-[0_15px_30px_-5px_rgba(37,211,102,0.4)] flex items-center justify-center mx-auto w-full sm:w-auto"
                   >
-                    <option>Quran Nazra</option>
-                    <option>Hifz Program</option>
-                    <option>Tajweed Mastery</option>
-                    <option>Islamic Studies</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700 uppercase tracking-widest">Your Message</label>
-                  <textarea 
-                    name="message"
-                    required
-                    rows={4} 
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:outline-none focus:border-islamic-green transition-all" 
-                    placeholder="Tell us about your requirements..."
-                  ></textarea>
-                </div>
-                <Button type="submit" variant="primary" className="w-full py-5 text-xl tracking-widest uppercase">Send Message</Button>
-              </form>
+                    <MessageCircle className="w-6 h-6 mr-3" /> Message on WhatsApp
+                  </Button>
+                </motion.div>
+                <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-6">
+                  Available 24/7 for your queries
+                </p>
+              </div>
             </div>
           </div>
         </div>
