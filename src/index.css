@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-arabic: "Cairo", sans-serif;
+  
+  --color-islamic-green: #013220;
+  --color-islamic-gold: #E6B325;
+  --color-islamic-white: #FDFBF7;
+}
+
+@layer base {
+  body {
+    @apply bg-islamic-white text-slate-900 selection:bg-islamic-gold/30;
+  }
+}
+
+.glass {
+  @apply backdrop-blur-md bg-white/80 border border-white/40 shadow-sm;
+}
+
+.glass-dark {
+  @apply backdrop-blur-md bg-islamic-green/90 border border-white/10;
+}
+
+.text-gradient-gold {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-islamic-gold via-[#FFD700] to-[#B8860B];
+}
+
+.pattern-overlay {
+  background-color: transparent;
+  background-image:  radial-gradient(#E6B325 0.5px, transparent 0.5px), radial-gradient(#E6B325 0.5px, #FDFBF7 0.5px);
+  background-size: 30px 30px;
+  background-position: 0 0,15px 15px;
+  opacity: 0.03;
+}
+
+.dark .pattern-overlay {
+  background-image:  radial-gradient(#E6B325 0.5px, transparent 0.5px), radial-gradient(#E6B325 0.5px, #0f172a 0.5px);
+}
+
+.shadow-premium {
+  box-shadow: 0 20px 40px -15px rgba(1, 50, 32, 0.12);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
