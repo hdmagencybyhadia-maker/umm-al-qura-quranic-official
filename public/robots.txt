@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://umm-al-qura-quranic-official.vercel.app/sitemap.xml
