@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   BookOpen, 
@@ -32,13 +32,13 @@ import {
 
 // --- Components ---
 
-const SectionHeading = ({ title, subtitle, centered = true }: { title: string; subtitle?: string; centered?: boolean }) => (
+const SectionHeading = ({ title, subtitle, centered = true, light = false }: { title: string; subtitle?: string; centered?: boolean; light?: boolean }) => (
   <div className={`mb-12 ${centered ? 'text-center' : ''}`}>
     <motion.h2 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="text-4xl md:text-5xl font-serif font-bold text-islamic-green mb-4 drop-shadow-sm"
+      className={`text-4xl md:text-5xl font-serif font-bold mb-4 drop-shadow-sm ${light ? 'text-white' : 'text-islamic-green'}`}
     >
       {title}
     </motion.h2>
@@ -48,7 +48,7 @@ const SectionHeading = ({ title, subtitle, centered = true }: { title: string; s
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.1 }}
-        className="text-slate-600 max-w-2xl mx-auto text-lg font-light"
+        className={`max-w-2xl mx-auto text-lg font-light ${light ? 'text-white/70' : 'text-slate-600'}`}
       >
         {subtitle}
       </motion.p>
@@ -85,24 +85,25 @@ const Button = ({ children, variant = 'primary', className = '', ...props }: any
 
 const CourseCard = ({ title, description, icon: Icon, delay, index }: any) => (
   <motion.div
-    initial={{ opacity: 0, x: -20 }}
-    whileInView={{ opacity: 1, x: 0 }}
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay }}
     onClick={() => window.open(`https://wa.me/923296838371?text=I want to learn more about ${title}`, '_blank')}
-    className="glass p-4 rounded-2xl mb-4 flex items-center gap-6 group hover:bg-islamic-green hover:text-white transition-all cursor-pointer shadow-sm hover:shadow-premium relative overflow-hidden w-full border border-islamic-green/5"
+    className="bg-white p-8 rounded-3xl border border-islamic-green/5 flex flex-col items-center text-center group hover:bg-islamic-green hover:text-white transition-all duration-300 cursor-pointer shadow-lg hover:shadow-2xl relative overflow-hidden w-full"
   >
-    <div className="absolute -right-2 top-1/2 -translate-y-1/2 text-6xl font-serif font-bold text-islamic-green/5 group-hover:text-white/10 pointer-events-none select-none">
+    <div className="absolute -right-4 -top-4 text-8xl font-serif font-bold text-islamic-green/5 group-hover:text-white/10 pointer-events-none select-none">
       {index}
     </div>
-    <div className="w-12 h-12 rounded-xl bg-islamic-green/10 flex items-center justify-center group-hover:bg-white/20 transition-colors shrink-0">
-      <Icon className="w-6 h-6 text-islamic-green group-hover:text-islamic-gold" />
+    <div className="w-20 h-20 rounded-2xl bg-islamic-green/5 flex items-center justify-center group-hover:bg-white/20 transition-colors mb-6">
+      <Icon className="w-10 h-10 text-islamic-green group-hover:text-islamic-gold" />
     </div>
-    <div className="flex-grow">
-      <h3 className="text-xl font-bold group-hover:text-islamic-gold">{title}</h3>
-      <p className="text-gray-500 text-sm group-hover:text-white/80 line-clamp-1">{description}</p>
+    <div className="flex flex-col items-center">
+      <h3 className="text-2xl font-bold mb-3 group-hover:text-islamic-gold">{title}</h3>
+      <p className="text-gray-500 group-hover:text-white/80 leading-relaxed mb-6">{description}</p>
     </div>
-    <div className="shrink-0 text-islamic-green group-hover:text-islamic-gold">
+    <div className="mt-auto flex items-center justify-center gap-2 font-bold text-islamic-green group-hover:text-islamic-gold">
+      <span>Get Details</span>
       <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
     </div>
   </motion.div>
@@ -110,59 +111,61 @@ const CourseCard = ({ title, description, icon: Icon, delay, index }: any) => (
 
 const FeatureBox = ({ title, description, icon: Icon, delay }: any) => (
   <motion.div
-    initial={{ opacity: 0, scale: 0.9 }}
-    whileInView={{ opacity: 1, scale: 1 }}
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay }}
-    className="p-8 rounded-3xl border border-islamic-green/10 bg-white shadow-sm hover:shadow-xl transition-all"
+    className="p-10 rounded-[2.5rem] border border-islamic-green/5 bg-white shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col items-center text-center"
   >
-    <Icon className="w-10 h-10 text-islamic-gold mb-4" />
-    <h4 className="text-xl font-bold mb-2 text-islamic-green">{title}</h4>
-    <p className="text-gray-500">{description}</p>
+    <div className="w-16 h-16 rounded-2xl bg-islamic-gold/10 flex items-center justify-center mb-6">
+      <Icon className="w-8 h-8 text-islamic-gold" />
+    </div>
+    <h4 className="text-2xl font-bold mb-4 text-islamic-green">{title}</h4>
+    <p className="text-gray-500 leading-relaxed">{description}</p>
   </motion.div>
 );
 
 const PricingPlan = ({ title, price, classes, duration, features, recommended = false }: any) => (
-  <motion.div
+    <motion.div
     whileHover={{ y: -10 }}
-    className={`p-10 rounded-[2.5rem] relative overflow-hidden h-full flex flex-col border transition-all duration-500 ${
+    className={`p-10 rounded-[3rem] relative overflow-hidden h-full flex flex-col items-center text-center border transition-all duration-500 ${
       recommended 
         ? 'bg-islamic-green text-white shadow-[0_30px_60px_-15px_rgba(1,50,32,0.3)] scale-105 z-10 border-transparent' 
-        : 'bg-white text-slate-800 border-slate-100 shadow-sm hover:shadow-xl'
+        : 'bg-white text-slate-800 border-slate-100 shadow-lg hover:shadow-2xl'
     }`}
   >
     {recommended && (
-      <div className="absolute top-0 right-0 bg-gradient-to-l from-islamic-gold to-[#B8860B] text-islamic-green px-6 py-2 rounded-bl-3xl font-bold text-[10px] tracking-widest uppercase">
-        Most Popular
+      <div className="absolute top-0 inset-x-0 bg-gradient-to-r from-islamic-gold to-[#B8860B] text-islamic-green px-6 py-2 font-bold text-[10px] tracking-widest uppercase">
+        Most Popular Choice
       </div>
     )}
-    <h3 className={`text-2xl font-bold mb-2 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`}>{title}</h3>
-    <div className="flex items-baseline mb-8">
-      <span className="text-4xl font-bold">{price}</span>
-      <span className={`ml-2 text-sm ${recommended ? 'text-white/60' : 'text-slate-400'}`}>/month</span>
+    <h3 className={`text-3xl font-bold mb-2 mt-4 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`}>{title}</h3>
+    <div className="flex items-baseline mb-8 justify-center">
+      <span className="text-5xl font-bold">{price}</span>
+      <span className={`ml-2 text-base ${recommended ? 'text-white/60' : 'text-slate-400'}`}>/month</span>
     </div>
-    <div className={`mb-8 border-t border-b py-6 ${recommended ? 'border-white/10' : 'border-slate-100'}`}>
-      <div className="flex items-center mb-3">
-        <Clock className={`w-5 h-5 mr-3 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`} />
-        <span className="font-medium">{classes} Classes / Week</span>
+    <div className={`mb-8 border-t border-b py-8 w-full ${recommended ? 'border-white/10' : 'border-slate-100'}`}>
+      <div className="flex items-center justify-center mb-4">
+        <Clock className={`w-6 h-6 mr-3 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`} />
+        <span className="font-bold text-lg">{classes} Classes / Week</span>
       </div>
-      <div className="flex items-center">
-        <Clock className={`w-5 h-5 mr-3 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`} />
-        <span className="font-medium">{duration} Min Sessions</span>
+      <div className="flex items-center justify-center">
+        <Clock className={`w-6 h-6 mr-3 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`} />
+        <span className="font-bold text-lg">{duration} Min Sessions</span>
       </div>
     </div>
-    <ul className="mb-10 space-y-4">
+    <ul className="mb-12 space-y-5 flex flex-col items-center">
       {features.map((f: string, i: number) => (
-        <li key={i} className="flex items-center text-sm">
-          <CheckCircle2 className={`w-4 h-4 mr-3 flex-shrink-0 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`} />
+        <li key={i} className="flex items-center text-base">
+          <CheckCircle2 className={`w-5 h-5 mr-3 flex-shrink-0 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`} />
           <span className={recommended ? 'text-white/90' : 'text-slate-600'}>{f}</span>
         </li>
       ))}
     </ul>
-    <div className="mt-auto">
+    <div className="mt-auto w-full">
       <Button 
         variant={recommended ? 'secondary' : 'primary'} 
-        className="w-full py-4 text-sm uppercase tracking-widest"
+        className="w-full py-5 text-base uppercase tracking-widest rounded-2xl"
         onClick={() => window.open(`https://wa.me/923296838371?text=Hi, I would like to enroll in the ${title}`, '_blank')}
       >
         Enroll Now
@@ -195,29 +198,48 @@ export default function App() {
       >
         <motion.div
           animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 180, 360]
+            scale: [1, 1.1, 1],
+            rotateY: [0, 180, 360]
           }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-24 h-24 border-4 border-islamic-gold border-t-islamic-green rounded-full"
-        />
-        <motion.h1 
-          animate={{ opacity: [0, 1, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="mt-8 text-2xl font-serif text-islamic-green font-bold"
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="w-32 h-32 bg-white rounded-3xl flex items-center justify-center overflow-hidden shadow-2xl border-4 border-islamic-gold p-1"
         >
-          Umm al-Qura
-        </motion.h1>
+          <img 
+            src="/src/assets/images/regenerated_image_1778510140191.jpg" 
+            alt="Umm al-Qura Academy Logo" 
+            className="w-full h-full object-cover rounded-2xl"
+          />
+        </motion.div>
+        <motion.div 
+          className="mt-10 flex flex-col items-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <h1 className="text-3xl font-serif text-islamic-green font-bold">
+            Umm al-<span className="text-islamic-gold">Qura</span>
+          </h1>
+          <span className="text-xs uppercase tracking-[0.4em] text-slate-400 font-bold mt-2">Academy</span>
+        </motion.div>
       </motion.div>
 
       {/* --- Sticky Navbar --- */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'glass py-3' : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-islamic-green rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">U</div>
-            <span className={`text-2xl font-serif font-bold tracking-tight ${isDarkMode || (!isScrolled && false) ? 'text-islamic-green' : 'text-islamic-green'}`}>
-              Umm al-<span className="text-islamic-gold">Qura</span>
-            </span>
+          <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <div className="w-12 h-12 bg-islamic-green rounded-2xl flex items-center justify-center overflow-hidden shadow-premium border-2 border-islamic-gold/20 group-hover:border-islamic-gold transition-all duration-300">
+              <img 
+                src="/src/assets/images/regenerated_image_1778510140191.jpg" 
+                alt="Umm al-Qura Academy Logo" 
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-serif font-bold tracking-tight text-islamic-green leading-none">
+                Umm al-<span className="text-islamic-gold">Qura</span>
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold">Academy</span>
+            </div>
           </div>
 
           <div className="hidden lg:flex items-center space-x-8 text-sm font-medium uppercase tracking-wider text-gray-700">
@@ -261,24 +283,33 @@ export default function App() {
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
-            className="fixed inset-0 z-[60] bg-white p-10 flex flex-col"
+            className="fixed inset-0 z-[60] bg-islamic-white p-10 flex flex-col items-center justify-center text-center"
           >
-            <div className="flex justify-end">
-              <button onClick={() => setIsMenuOpen(false)}>
-                <X className="w-10 h-10 text-islamic-green" />
-              </button>
-            </div>
-            <div className="mt-12 flex flex-col space-y-8 text-3xl font-serif font-bold text-islamic-green">
+            <button 
+              onClick={() => setIsMenuOpen(false)}
+              className="absolute top-8 right-8 p-3 bg-islamic-green/5 rounded-full"
+            >
+              <X className="w-8 h-8 text-islamic-green" />
+            </button>
+            <div className="flex flex-col space-y-10 text-4xl font-serif font-bold text-islamic-green">
               {['Home', 'About', 'Courses', 'Pricing'].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setIsMenuOpen(false)}>{item}</a>
+                <a 
+                  key={item} 
+                  href={`#${item.toLowerCase()}`} 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="hover:text-islamic-gold transition-colors block w-full px-12 py-4"
+                >
+                  {item}
+                </a>
               ))}
               <a 
                 href="https://wa.me/923296838371" 
                 target="_blank" 
                 rel="noreferrer" 
                 onClick={() => setIsMenuOpen(false)}
+                className="bg-islamic-green text-white px-12 py-5 rounded-3xl text-2xl shadow-xl active:scale-95 transition-transform"
               >
-                Contact
+                Contact Now
               </a>
             </div>
           </motion.div>
@@ -298,7 +329,7 @@ export default function App() {
           <div className="absolute inset-0 bg-gradient-to-t from-islamic-green/80 to-transparent" />
         </div>
 
-        <div className="container mx-auto px-6 relative z-10 pt-20">
+        <div className="container mx-auto px-6 relative z-10 pt-32">
           <div className="max-w-4xl">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -308,9 +339,8 @@ export default function App() {
               <span className="inline-block px-4 py-1 rounded-full bg-islamic-gold/20 text-islamic-gold text-sm font-bold uppercase tracking-widest mb-6 border border-islamic-gold/30 backdrop-blur-sm">
                 Certified Teachers Worldwide
               </span>
-              <h1 className="text-6xl md:text-9xl font-serif font-bold text-white leading-[0.9] mb-8">
-                Learn Quran <br />
-                <span className="text-gradient-gold">from Experts</span>
+              <h1 className="text-4xl md:text-6xl font-serif font-bold text-white leading-tight mb-8">
+                Learn Quran <span className="text-gradient-gold">from Experts</span>
               </h1>
               <p className="text-xl md:text-2xl text-white/90 font-light mb-12 max-w-2xl leading-relaxed">
                 Nazra, Hifz, Tajweed & Islamic Studies for Kids (7+) and Adults. 
@@ -381,10 +411,9 @@ export default function App() {
             >
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-islamic-gold/10 rounded-full blur-3xl" />
               <img 
-                src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?q=80&w=2670&auto=format&fit=crop" 
+                src="/src/assets/images/regenerated_image_1778510436373.jpg" 
                 alt="The Holy Quran" 
                 className="rounded-[3rem] shadow-2xl relative z-10"
-                referrerPolicy="no-referrer"
               />
             </motion.div>
 
@@ -425,7 +454,7 @@ export default function App() {
             subtitle="Tailored programs designed to help you master the Quran and Islamic principles from the comfort of your home."
           />
 
-          <div className="grid grid-cols-1 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
             {[
               { 
                 title: 'Quran Nazra', 
@@ -490,9 +519,8 @@ export default function App() {
             title="Our Expert Teachers" 
             subtitle="Guidance from certified professionals dedicated to your spiritual growth."
             centered={true}
+            light={true}
           />
-          {/* Custom style for this section heading as it's on dark bg */}
-          <style>{`#courses + section + section h2 { color: white; } #courses + section + section p { color: rgba(255,255,255,0.7); }`}</style>
           
           <div className="grid grid-cols-1 gap-4 max-w-4xl mx-auto">
             {[
@@ -710,11 +738,20 @@ export default function App() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20 border-b border-white/10 pb-16">
             <div className="space-y-6">
-               <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-islamic-green font-bold text-xl">U</div>
-                <span className="text-2xl font-serif font-bold text-white tracking-tight">
-                  Umm al-<span className="text-islamic-gold">Qura</span>
-                </span>
+               <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center overflow-hidden shadow-premium p-0.5">
+                  <img 
+                    src="/src/assets/images/regenerated_image_1778510140191.jpg" 
+                    alt="Umm al-Qura Academy Logo" 
+                    className="w-full h-full object-cover rounded-[14px]"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xl font-serif font-bold text-white leading-none tracking-tight">
+                    Umm al-<span className="text-islamic-gold">Qura</span>
+                  </span>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold">Academy</span>
+                </div>
               </div>
               <p className="text-white/60 leading-relaxed">
                 Empowering the Ummah with authentic Quranic knowledge through modern technology and expert guidance.
