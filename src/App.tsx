@@ -727,9 +727,11 @@ export default function App() {
                 <span className="absolute -bottom-2 left-0 w-10 h-0.5 bg-islamic-gold" />
               </h4>
               <ul className="space-y-4 text-white/50">
-                {['Home', 'About Us', 'Courses', 'Success Stories', 'Privacy Policy'].map(item => (
-                  <li key={item}><a href="#" className="hover:text-islamic-gold transition-colors">{item}</a></li>
+                {['Home', 'About Us', 'Courses', 'Success Stories'].map(item => (
+                  <li key={item}><a href={`#${item.toLowerCase().replace(' ', '')}`} className="hover:text-islamic-gold transition-colors">{item}</a></li>
                 ))}
+                <li><a href="/brochure.html" target="_blank" className="hover:text-islamic-gold transition-colors">Download Brochure (HTML)</a></li>
+                <li><a href="#" className="hover:text-islamic-gold transition-colors">Privacy Policy</a></li>
               </ul>
             </div>
 
