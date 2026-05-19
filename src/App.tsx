@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { extendedTestimonials } from './constants/testimonials';
 import { 
   BookOpen, 
   MapPin, 
@@ -109,6 +110,24 @@ const CourseCard = ({ title, description, icon: Icon, delay, index }: any) => (
   </motion.div>
 );
 
+const TestimonialCard = ({ name, location, comment, rating }: any) => (
+  <div className="bg-white p-8 rounded-[2.5rem] border border-islamic-green/5 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
+    <div className="flex items-center justify-center gap-1 mb-6 text-islamic-gold">
+      {[...Array(rating)].map((_, i) => <Star key={i} className="w-5 h-5 fill-current" />)}
+    </div>
+    <p className="text-slate-600 mb-8 italic text-lg leading-relaxed">"{comment}"</p>
+    <div className="flex flex-col items-center gap-4 mt-auto">
+      <div className="w-14 h-14 rounded-2xl bg-islamic-green/10 flex items-center justify-center font-bold text-xl text-islamic-green">
+        {name[0]}
+      </div>
+      <div>
+        <h4 className="font-bold text-xl text-islamic-green">{name}</h4>
+        <p className="text-sm text-slate-400 font-bold uppercase tracking-widest">{location}</p>
+      </div>
+    </div>
+  </div>
+);
+
 const FeatureBox = ({ title, description, icon: Icon, delay }: any) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -125,54 +144,7 @@ const FeatureBox = ({ title, description, icon: Icon, delay }: any) => (
   </motion.div>
 );
 
-const PricingPlan = ({ title, price, classes, duration, features, recommended = false }: any) => (
-    <motion.div
-    whileHover={{ y: -10 }}
-    className={`p-10 rounded-[3rem] relative overflow-hidden h-full flex flex-col items-center text-center border transition-all duration-500 ${
-      recommended 
-        ? 'bg-islamic-green text-white shadow-[0_30px_60px_-15px_rgba(1,50,32,0.3)] scale-105 z-10 border-transparent' 
-        : 'bg-white text-slate-800 border-slate-100 shadow-lg hover:shadow-2xl'
-    }`}
-  >
-    {recommended && (
-      <div className="absolute top-0 inset-x-0 bg-gradient-to-r from-islamic-gold to-[#B8860B] text-islamic-green px-6 py-2 font-bold text-[10px] tracking-widest uppercase">
-        Most Popular Choice
-      </div>
-    )}
-    <h3 className={`text-3xl font-bold mb-2 mt-4 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`}>{title}</h3>
-    <div className="flex items-baseline mb-8 justify-center">
-      <span className="text-5xl font-bold">{price}</span>
-      <span className={`ml-2 text-base ${recommended ? 'text-white/60' : 'text-slate-400'}`}>/month</span>
-    </div>
-    <div className={`mb-8 border-t border-b py-8 w-full ${recommended ? 'border-white/10' : 'border-slate-100'}`}>
-      <div className="flex items-center justify-center mb-4">
-        <Clock className={`w-6 h-6 mr-3 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`} />
-        <span className="font-bold text-lg">{classes} Classes / Week</span>
-      </div>
-      <div className="flex items-center justify-center">
-        <Clock className={`w-6 h-6 mr-3 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`} />
-        <span className="font-bold text-lg">{duration} Min Sessions</span>
-      </div>
-    </div>
-    <ul className="mb-12 space-y-5 flex flex-col items-center">
-      {features.map((f: string, i: number) => (
-        <li key={i} className="flex items-center text-base">
-          <CheckCircle2 className={`w-5 h-5 mr-3 flex-shrink-0 ${recommended ? 'text-islamic-gold' : 'text-islamic-green'}`} />
-          <span className={recommended ? 'text-white/90' : 'text-slate-600'}>{f}</span>
-        </li>
-      ))}
-    </ul>
-    <div className="mt-auto w-full">
-      <Button 
-        variant={recommended ? 'secondary' : 'primary'} 
-        className="w-full py-5 text-base uppercase tracking-widest rounded-2xl"
-        onClick={() => window.open(`https://wa.me/923296838371?text=Hi, I would like to enroll in the ${title}`, '_blank')}
-      >
-        Enroll Now
-      </Button>
-    </div>
-  </motion.div>
-);
+
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -243,7 +215,7 @@ export default function App() {
           </div>
 
           <div className="hidden lg:flex items-center space-x-8 text-sm font-medium uppercase tracking-wider text-gray-700">
-            {['Home', 'About', 'Courses', 'Pricing'].map((item) => (
+            {['Home', 'About', 'Courses', 'Testimonials'].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-islamic-gold transition-colors">{item}</a>
             ))}
             <a 
@@ -292,7 +264,7 @@ export default function App() {
               <X className="w-8 h-8 text-islamic-green" />
             </button>
             <div className="flex flex-col space-y-10 text-4xl font-serif font-bold text-islamic-green">
-              {['Home', 'About', 'Courses', 'Pricing'].map((item) => (
+              {['Home', 'About', 'Courses', 'Testimonials'].map((item) => (
                 <a 
                   key={item} 
                   href={`#${item.toLowerCase()}`} 
@@ -559,100 +531,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- Testimonials --- */}
-      <section className="py-24">
-        <div className="container mx-auto px-6">
-          <SectionHeading title="Student Voice" subtitle="Hear from our global community about their learning experience." />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { name: 'Ahmed Khan', location: 'United Kingdom', quote: 'Umm al-Qura has transformed my children\'s recitation. The teachers are incredibly patient and professional.', rating: 5 },
-              { name: 'Sarah Miller', location: 'USA', quote: 'As a revert, I was nervous about starting, but my teacher made me feel so comfortable. I can now read Juz Amma fluently.', rating: 5 },
-              { name: 'Ibrahim Ali', location: 'Canada', quote: 'The interactive system and flexible timings are perfect for my busy work schedule. Highly recommend the Tajweed course.', rating: 5 },
-              { name: 'Aisha Rahman', location: 'Australia', quote: 'My daughter loves her classes! The digital platform is so easy to use and the progress reports keep me informed.', rating: 5 },
-              { name: 'Omar Hassan', location: 'Germany', quote: 'The depth of knowledge in the Tafseer course is outstanding. It has truly enriched my understanding of the Quran.', rating: 5 },
-              { name: 'Zainab B.', location: 'Norway', quote: 'Finding a female teacher with such high qualifications was a blessing. Very flexible and accommodating.', rating: 5 }
-            ].map((t, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.02 }}
-                className="p-10 rounded-[2rem] bg-white border border-gray-100 shadow-premium relative"
-              >
-                <div className="absolute top-10 right-10">
-                  <MessageCircle className="w-8 h-8 text-islamic-gold/20" />
-                </div>
-                <div className="flex space-x-1 mb-6">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-islamic-gold text-islamic-gold" />
-                  ))}
-                </div>
-                <p className="text-gray-600 italic text-lg mb-8">"{t.quote}"</p>
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-islamic-green/10 flex items-center justify-center font-bold text-islamic-green">
-                    {t.name[0]}
-                  </div>
-                  <div>
-                    <h5 className="font-bold text-islamic-green">{t.name}</h5>
-                    <p className="text-xs text-gray-400 uppercase tracking-widest">{t.location}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* --- Pricing Plans --- */}
-      <section id="pricing" className="py-24 bg-islamic-green/5">
-        <div className="container mx-auto px-6">
-          <SectionHeading 
-            title="Affordable Learning Plans" 
-            subtitle="Quality Quranic education accessible for everyone with our transparent pricing structure."
-          />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
-            <PricingPlan 
-              title="Basic Plan" 
-              price="$35" 
-              classes="5" 
-              duration="30" 
-              features={[
-                'Nazra & Basic Qaida',
-                'Basic Duas',
-                'Monthly Performance Report',
-                'Weekend Off'
-              ]} 
-            />
-            <PricingPlan 
-              title="Standard Plan" 
-              price="$55" 
-              classes="5" 
-              duration="30" 
-              recommended={true}
-              features={[
-                'Quran with Tajweed',
-                'Salah & Wudu Practice',
-                'Memorization of Small Surahs',
-                '24/7 Portal Access',
-                'Family Discount Available'
-              ]} 
-            />
-            <PricingPlan 
-              title="Premium Plan" 
-              price="$85" 
-              classes="5" 
-              duration="45" 
-              features={[
-                'Full Hifz Course',
-                'Advanced Tajweed Rules',
-                'Tafseer & Hadith Lessons',
-                'Priority Support',
-                'Certificate of Completion'
-              ]} 
-            />
-          </div>
-        </div>
-      </section>
 
       {/* --- Contact Section --- */}
       <section id="contact" className="py-24">
@@ -693,12 +571,24 @@ export default function App() {
               </div>
 
               <div className="mt-16 pt-12 border-t border-white/10">
-                <div className="flex space-x-6">
-                  {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                    <a key={i} href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-islamic-gold hover:border-islamic-gold transition-all">
-                      <Icon className="w-5 h-5" />
-                    </a>
-                  ))}
+                <p className="text-white/50 text-sm mb-4 font-bold uppercase tracking-wider">Follow Us On</p>
+                <div className="flex space-x-4">
+                  <a 
+                    href="https://www.instagram.com/ummul_qura_online_quran_tution?igsh=MTR5bThsZ3h5bnNrMQ==" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] hover:border-transparent transition-all duration-300 shadow-lg text-white group"
+                  >
+                    <Instagram className="w-6 h-6 transition-transform group-hover:scale-110" />
+                  </a>
+                  <a 
+                    href="https://wa.me/923296838371" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#25D366] hover:border-transparent transition-all duration-300 shadow-lg text-white group"
+                  >
+                    <MessageCircle className="w-6 h-6 transition-transform group-hover:scale-110" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -732,6 +622,40 @@ export default function App() {
         </div>
       </section>
 
+        {/* --- Testimonials (Student Voice) --- */}
+        <section className="py-24 bg-white overflow-hidden" id="testimonials">
+          <div className="container mx-auto px-6">
+            <SectionHeading 
+              title="Student Voice" 
+              subtitle="Joined by 500+ students worldwide who are mastering the Quran with us."
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {extendedTestimonials.slice(0, 15).map((t, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: (i % 3) * 0.1 }}
+              >
+                <TestimonialCard {...t} />
+              </motion.div>
+            ))}
+          </div>
+          
+          <div className="mt-16 text-center">
+            <p className="text-slate-400 font-medium mb-6 italic">Joined by 500+ satisfied students globally...</p>
+            <Button 
+              variant="outline" 
+              onClick={() => window.open('https://wa.me/923296838371?text=I want to see more student reviews', '_blank')}
+            >
+              Contact to See All 500+ Reviews
+            </Button>
+          </div>
+        </section>
+
       {/* --- Footer --- */}
       <footer className="bg-islamic-green py-20 relative overflow-hidden">
         <div className="pattern-overlay absolute inset-0 opacity-[0.05]" />
@@ -756,6 +680,26 @@ export default function App() {
               <p className="text-white/60 leading-relaxed">
                 Empowering the Ummah with authentic Quranic knowledge through modern technology and expert guidance.
               </p>
+              <div className="flex space-x-3 pt-2">
+                <a 
+                  href="https://www.instagram.com/ummul_qura_online_quran_tution?igsh=MTR5bThsZ3h5bnNrMQ==" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] hover:border-transparent transition-all duration-300 text-white group"
+                  title="Instagram"
+                >
+                  <Instagram className="w-5 h-5 transition-transform group-hover:scale-110" />
+                </a>
+                <a 
+                  href="https://wa.me/923296838371" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#25D366] hover:border-transparent transition-all duration-300 text-white group"
+                  title="WhatsApp"
+                >
+                  <MessageCircle className="w-5 h-5 transition-transform group-hover:scale-110" />
+                </a>
+              </div>
             </div>
 
             <div>
